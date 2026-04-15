@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מה נלמד היום? | השתלמות בינה מלאכותית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Heebo',sans-serif;
+    background:#0a0e27;
+    background-image:
+      radial-gradient(at 15% 20%,rgba(99,102,241,.35) 0,transparent 50%),
+      radial-gradient(at 85% 10%,rgba(236,72,153,.30) 0,transparent 50%),
+      radial-gradient(at 75% 85%,rgba(14,165,233,.35) 0,transparent 50%),
+      radial-gradient(at 10% 90%,rgba(168,85,247,.30) 0,transparent 50%);
+    color:#fff;
+    padding:32px 40px;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .stage{max-width:1800px;margin:0 auto}
+  header{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:40px;
+    align-items:center;
+    margin-bottom:40px;
+  }
+  .title-area .eyebrow{
+    display:inline-block;
+    padding:10px 22px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:999px;
+    font-size:20px;
+    font-weight:500;
+    margin-bottom:16px;
+  }
+  h1{
+    font-size:clamp(56px,7vw,108px);
+    font-weight:900;
+    line-height:1;
+    background:linear-gradient(135deg,#fff 0%,#c7d2fe 50%,#f0abfc 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:14px;
+  }
+  .subtitle{
+    font-size:clamp(22px,2vw,30px);
+    font-weight:400;
+    color:rgba(255,255,255,.8);
+  }
+  .vote-box{
+    background:rgba(255,255,255,.10);
+    border:2px solid rgba(255,255,255,.25);
+    border-radius:28px;
+    padding:24px 28px;
+    text-align:center;
+    backdrop-filter:blur(12px);
+    min-width:340px;
+  }
+  .vote-box .label{
+    font-size:20px;
+    font-weight:700;
+    color:#fde047;
+    margin-bottom:10px;
+    letter-spacing:.3px;
+  }
+  .qr{
+    width:260px;height:260px;
+    background:#fff;
+    padding:14px;
+    border-radius:18px;
+    margin:0 auto 14px;
+  }
+  .qr img{width:100%;height:100%;display:block}
+  .vote-url{
+    font-size:22px;
+    font-weight:700;
+    direction:ltr;
+    color:#fff;
+    background:rgba(0,0,0,.35);
+    padding:10px 16px;
+    border-radius:12px;
+    display:inline-block;
+    letter-spacing:.5px;
+  }
+  .vote-count{
+    margin-top:12px;
+    font-size:18px;
+    color:rgba(255,255,255,.75);
+  }
+  .vote-count strong{color:#fde047;font-size:26px}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+  }
+  .card{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:24px;
+    align-items:center;
+    padding:22px 28px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;
+    backdrop-filter:blur(10px);
+    overflow:hidden;
+    transition:transform .4s ease,border-color .4s ease;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;
+    background:var(--grad);
+    opacity:.12;
+    z-index:0;
+  }
+  .card.leading{
+    border-color:rgba(253,224,71,.7);
+    box-shadow:0 0 0 2px rgba(253,224,71,.35),0 20px 60px -15px rgba(253,224,71,.25);
+    transform:scale(1.01);
+  }
+  .card>*{position:relative;z-index:1}
+  .icon-wrap{
+    width:74px;height:74px;
+    border-radius:18px;
+    background:var(--grad);
+    display:grid;place-items:center;
+    font-size:36px;
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.6);
+  }
+  .info h2{
+    font-size:clamp(24px,1.8vw,32px);
+    font-weight:700;
+    margin-bottom:6px;
+    line-height:1.15;
+  }
+  .info p{
+    font-size:clamp(16px,1.1vw,19px);
+    color:rgba(255,255,255,.78);
+    line-height:1.4;
+  }
+  .score{
+    text-align:center;
+    min-width:120px;
+  }
+  .score .pts{
+    font-size:56px;
+    font-weight:900;
+    line-height:1;
+    color:#fff;
+  }
+  .leading .score .pts{color:#fde047}
+  .score .lbl{
+    font-size:14px;
+    color:rgba(255,255,255,.65);
+    margin-top:4px;
+    font-weight:500;
+  }
+  .bar{
+    position:absolute;
+    right:0;bottom:0;
+    height:4px;
+    background:var(--grad);
+    transition:width .6s cubic-bezier(.2,.8,.2,1);
+    z-index:2;
+  }
+  @media(max-width:1100px){
+    .grid{grid-template-columns:1fr}
+    header{grid-template-columns:1fr}
+    .vote-box{justify-self:center}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <div class="title-area">
+      <span class="eyebrow">השתלמות מורים · קריית חינוך קציר רחובות</span>
+      <h1>מה נלמד היום?</h1>
+      <p class="subtitle">סרקו את הקוד בטלפון ודרגו את 3 האפשרויות שהכי מעניינות אתכם</p>
+    </div>
+    <div class="vote-box">
+      <div class="label">הצביעו עכשיו ←</div>
+      <div class="qr"><img id="qrImg" alt="QR"></div>
+      <div class="vote-url" id="voteUrl">...</div>
+      <div class="vote-count">הצביעו עד כה: <strong id="count">0</strong></div>
+    </div>
+  </header>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script src="config.js"></script>
+<script>
+const API=window.VOTING_API;
+
+const OPTIONS=[
+  {id:'gemini',icon:'💎',title:'Gems ב-Gemini + Storybook',desc:'עוזרים חכמים מותאמים אישית + ספרי ילדים מאויירים',grad:'linear-gradient(135deg,#4f46e5,#06b6d4)'},
+  {id:'perplexity',icon:'🔎',title:'Perplexity',desc:'מנוע חיפוש חכם עם מקורות מצוטטים',grad:'linear-gradient(135deg,#0ea5e9,#14b8a6)'},
+  {id:'napkin',icon:'📊',title:'Napkin AI',desc:'הופך טקסט לדיאגרמות ואינפוגרפיקות בלחיצה',grad:'linear-gradient(135deg,#f59e0b,#ef4444)'},
+  {id:'suno',icon:'🎵',title:'Suno',desc:'יצירת שירים שלמים מתיאור בעברית',grad:'linear-gradient(135deg,#ec4899,#8b5cf6)'},
+  {id:'morai',icon:'🎓',title:'Morai',desc:'פלטפורמת AI ישראלית במיוחד למורים',grad:'linear-gradient(135deg,#10b981,#3b82f6)'},
+  {id:'notebooklm',icon:'📚',title:'NotebookLM + חיבור תקיות',desc:'הפכו מסמכים שלכם למקור ידע חכם',grad:'linear-gradient(135deg,#a855f7,#ec4899)'},
+  {id:'classroom',icon:'🏫',title:'AI ב-Google Classroom',desc:'שאלונים, סיכומים ומשוב אוטומטי לתלמידים',grad:'linear-gradient(135deg,#22c55e,#eab308)'}
+];
+
+const grid=document.getElementById('grid');
+OPTIONS.forEach(o=>{
+  const el=document.createElement('div');
+  el.className='card';
+  el.id='c-'+o.id;
+  el.style.setProperty('--grad',o.grad);
+  el.innerHTML=`
+    <div class="icon-wrap">${o.icon}</div>
+    <div class="info"><h2>${o.title}</h2><p>${o.desc}</p></div>
+    <div class="score"><div class="pts" id="p-${o.id}">0</div><div class="lbl">נקודות</div></div>
+    <div class="bar" id="b-${o.id}" style="width:0"></div>
+  `;
+  grid.appendChild(el);
+});
+
+// Set vote URL + QR
+const voteUrl=location.href.replace(/index\.html.*$/,'').replace(/\/$/,'')+'/vote.html';
+document.getElementById('voteUrl').textContent=voteUrl.replace(/^https?:\/\//,'');
+document.getElementById('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data='+encodeURIComponent(voteUrl);
+
+async function refresh(){
+  if(!API||API.indexOf('PASTE_')===0){
+    document.getElementById('count').textContent='הגדר את כתובת ה-API ב-config.js';
+    return;
+  }
+  try{
+    const sep=API.indexOf('?')>=0?'&':'?';
+    const r=await fetch(API+sep+'t='+Date.now());
+    const data=await r.json();
+    const votes=data.votes||[];
+    const scores={};
+    OPTIONS.forEach(o=>scores[o.id]=0);
+    votes.forEach(v=>{
+      if(v.first&&scores[v.first]!=null)scores[v.first]+=3;
+      if(v.second&&scores[v.second]!=null)scores[v.second]+=2;
+      if(v.third&&scores[v.third]!=null)scores[v.third]+=1;
+    });
+    const max=Math.max(1,...Object.values(scores));
+    const leader=Object.keys(scores).reduce((a,b)=>scores[a]>=scores[b]?a:b);
+    const hasVotes=votes.length>0;
+    OPTIONS.forEach(o=>{
+      document.getElementById('p-'+o.id).textContent=scores[o.id];
+      document.getElementById('b-'+o.id).style.width=(scores[o.id]/max*100)+'%';
+      document.getElementById('c-'+o.id).classList.toggle('leading',hasVotes&&o.id===leader&&scores[o.id]>0);
+    });
+    document.getElementById('count').textContent=votes.length;
+  }catch(e){console.error(e)}
+}
+refresh();
+setInterval(refresh,2500);
+</script>
+</body>
+</html>
