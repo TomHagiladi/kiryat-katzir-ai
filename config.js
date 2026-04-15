@@ -1,3 +1,1 @@
-// החליפו את הערך כאן בכתובת שקיבלתם מ-Google Apps Script
-// אחרי שפרסתם את האפליקציה (Deploy → Web App)
-window.VOTING_API = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+window.VOTING_API = 'https://script.google.com/macros/s/AKfycbxgQLOpSw8gGxWZWmGAaKF1VjAvIHCIhlCeC3HRJE0AHMaYF95GZhiFyYt1p51AhuhX/exec';
